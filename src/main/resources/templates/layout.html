@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Global Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* ===== Navbar Styles ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .navbar h1 {
+            color: #ffe57f;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+        
+        .navbar nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* ===== Main Content Styles ===== */
+        .main-container {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        /* ===== Footer Styles ===== */
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        
+        /* ===== Demo Content Styles ===== */
+        .demo-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .demo-content h2 {
+            margin-bottom: 1.5rem;
+            color: #ffe57f;
+        }
+        
+        .demo-content p {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .demo-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+            transition: transform 0.3s ease;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .demo-card h3 {
+            margin-bottom: 1rem;
+            color: #ffe57f;
+        }
+        
+        .user-status {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+        
+        .toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            color: #fff;
+            cursor: pointer;
+            margin: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <h1>AniMart</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Toys</a>
+            <span id="auth-section">
+                <a href="#" class="auth-link">Login</a>
+                <a href="#" class="auth-link">Register</a>
+            </span>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <div class="demo-content">
+            <h2>AniMart Layout Template</h2>
+            <p>This is a standalone recreation of the AniMart layout template with user authentication simulation.</p>
+            
+            <div class="user-status">
+                <p>Current Status: <span id="status-text">Not Logged In</span></p>
+                <button class="toggle-btn" id="toggle-auth">Simulate Login</button>
+            </div>
+            
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>Navigation</h3>
+                    <p>The navbar includes links to Home, Toys, and authentication options that change based on login status.</p>
+                </div>
+                <div class="demo-card">
+                    <h3>Content Area</h3>
+                    <p>This main content area would be dynamically replaced with page-specific content in the actual application.</p>
+                </div>
+                <div class="demo-card">
+                    <h3>Footer</h3>
+                    <p>The footer contains copyright information and remains consistent across all pages.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 AniMart | Anime Toy Store</p>
+    </footer>
+
+    <script>
+        // Simulate login/logout functionality
+        document.getElementById('toggle-auth').addEventListener('click', function() {
+            const authSection = document.getElementById('auth-section');
+            const statusText = document.getElementById('status-text');
+            const toggleBtn = document.getElementById('toggle-auth');
+            
+            if (statusText.textContent === 'Not Logged In') {
+                // Switch to logged in state
+                authSection.innerHTML = '<span>demo_user</span> <a href="#">Logout</a>';
+                statusText.textContent = 'Logged In as demo_user';
+                toggleBtn.textContent = 'Simulate Logout';
+            } else {
+                // Switch to logged out state
+                authSection.innerHTML = '<a href="#" class="auth-link">Login</a> <a href="#" class="auth-link">Register</a>';
+                statusText.textContent = 'Not Logged In';
+                toggleBtn.textContent = 'Simulate Login';
+            }
+        });
+    </script>
+</body>
+</html>

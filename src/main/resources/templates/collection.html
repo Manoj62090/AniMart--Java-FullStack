@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Wishlist | AniMart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== Global Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #ff4d8d;
+            --secondary: #6a5af9;
+            --accent: #ffd166;
+            --dark: #0f1425;
+            --darker: #0a0e1a;
+            --light: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark), #1a1a2e);
+            color: var(--light);
+            min-height: 100vh;
+        }
+        
+        /* ===== Navbar Styles ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(15, 20, 37, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-icon {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+        
+        .logo h1 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, var(--accent), #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .shop-now-btn {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 0.8rem 1.5rem;
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .shop-now-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* ===== Main Container ===== */
+        .main-container {
+            padding: 3rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .wishlist-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .wishlist-header h1 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .wishlist-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+        
+        /* ===== Wishlist Grid ===== */
+        .toy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .toy-card {
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .toy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+        
+        .toy-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .toy-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .toy-img {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .toy-card:hover .toy-img {
+            transform: scale(1.05);
+        }
+        
+        .toy-card h3 {
+            margin-bottom: 0.8rem;
+            color: var(--accent);
+            font-size: 1.4rem;
+        }
+        
+        .toy-card p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .toy-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .toy-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 0.7rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .action-btn.cart {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .action-btn.remove {
+            background: rgba(255, 77, 141, 0.2);
+            color: var(--light);
+            border: 1px solid rgba(255, 77, 141, 0.3);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .action-btn.cart:hover {
+            box-shadow: 0 5px 15px rgba(255, 77, 141, 0.4);
+        }
+        
+        .action-btn.remove:hover {
+            background: rgba(255, 77, 141, 0.3);
+        }
+        
+        /* ===== Empty Wishlist State ===== */
+        .empty-wishlist {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--glass);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+        
+        .empty-wishlist i {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .empty-wishlist h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .empty-wishlist p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        /* ===== Footer Styles ===== */
+        .footer {
+            background: rgba(10, 14, 26, 0.9);
+            padding: 3rem 5% 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .social-link:hover {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        /* ===== Mobile Responsiveness ===== */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .toy-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .toy-actions {
+                flex-direction: column;
+            }
+        }
+        
+        /* ===== Toast Notification ===== */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success {
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .toast.error {
+            border-left: 4px solid #ff4d8d;
+        }
+        
+        .toast i {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== Navbar ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-dragon logo-icon"></i>
+            <h1>AniMart</h1>
+        </div>
+        <a href="#" class="shop-now-btn">
+            <i class="fas fa-shopping-bag"></i>
+            Shop Now
+        </a>
+    </header>
+
+    <!-- ===== Main Container ===== -->
+    <div class="main-container">
+        <div class="wishlist-header">
+            <h1><i class="fas fa-heart"></i> Your Wishlist</h1>
+            <p>Your favorite anime collectibles all in one place</p>
+        </div>
+
+        <!-- Wishlist with items -->
+        <div class="toy-grid" id="wishlist-items">
+            <!-- Wishlist Item 1 -->
+            <div class="toy-card" data-id="naruto">
+                <div class="toy-badge">BESTSELLER</div>
+                <img src="https://avidcollectibles.com/wp-content/uploads/2023/01/naruto-uzumaki-nendoroid.png" alt="Naruto Figure" class="toy-img">
+                <h3>Naruto Uzumaki</h3>
+                <p>Dynamic pose collectible figure from the Naruto series with special effects.</p>
+                <div class="toy-price">$49.99</div>
+                <div class="toy-actions">
+                    <button class="action-btn cart" onclick="addToCart('naruto')">
+                        <i class="fas fa-cart-plus"></i>
+                        Add to Cart
+                    </button>
+                    <button class="action-btn remove" onclick="removeFromWishlist('naruto')">
+                        <i class="fas fa-trash"></i>
+                        Remove
+                    </button>
+                </div>
+            </div>
+
+            <!-- Wishlist Item 2 -->
+            <div class="toy-card" data-id="luffy">
+                <div class="toy-badge">NEW</div>
+                <img src="https://m.media-amazon.com/images/I/71CWSymDYJL._AC_SX679_.jpg" alt="Luffy Figure" class="toy-img">
+                <h3>Monkey D. Luffy</h3>
+                <p>High-detail action figure of Luffy from One Piece with interchangeable parts.</p>
+                <div class="toy-price">$54.99</div>
+                <div class="toy-actions">
+                    <button class="action-btn cart" onclick="addToCart('luffy')">
+                        <i class="fas fa-cart-plus"></i>
+                        Add to Cart
+                    </button>
+                    <button class="action-btn remove" onclick="removeFromWishlist('luffy')">
+                        <i class="fas fa-trash"></i>
+                        Remove
+                    </button>
+                </div>
+            </div>
+
+            <!-- Wishlist Item 3 -->
+            <div class="toy-card" data-id="goku">
+                <div class="toy-badge">LIMITED</div>
+                <img src="https://figurestart.com/cdn/shop/products/Dragon-Ball-Z-Goku-Figure-rise-Standard-Model-Kit.jpg?v=1678774252" alt="Goku Figure" class="toy-img">
+                <h3>Son Goku</h3>
+                <p>Super Saiyan edition from Dragon Ball Z with energy effect accessories.</p>
+                <div class="toy-price">$59.99</div>
+                <div class="toy-actions">
+                    <button class="action-btn cart" onclick="addToCart('goku')">
+                        <i class="fas fa-cart-plus"></i>
+                        Add to Cart
+                    </button>
+                    <button class="action-btn remove" onclick="removeFromWishlist('goku')">
+                        <i class="fas fa-trash"></i>
+                        Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty Wishlist State (initially hidden) -->
+        <div class="empty-wishlist" id="empty-wishlist" style="display: none;">
+            <i class="fas fa-heart-broken"></i>
+            <h2>Your Wishlist is Empty</h2>
+            <p>Looks like you haven't added any items to your wishlist yet.</p>
+            <a href="#" class="shop-now-btn" style="display: inline-flex;">
+                <i class="fas fa-shopping-bag"></i>
+                Start Shopping
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== Toast Notification ===== -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Item added to cart!</span>
+    </div>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>AniMart</h3>
+                <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">Your premium destination for authentic anime collectibles and merchandise.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Shop</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> All Products</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> New Arrivals</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Best Sellers</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Shipping Info</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Returns</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AniMart | Premium Anime Collectibles. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Wishlist functionality
+        let wishlistItems = ['naruto', 'luffy', 'goku'];
+
+        // Initialize wishlist from localStorage if available
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedWishlist = localStorage.getItem('animeWishlist');
+            if (savedWishlist) {
+                wishlistItems = JSON.parse(savedWishlist);
+                updateWishlistDisplay();
+            }
+        });
+
+        function removeFromWishlist(itemId) {
+            // Remove from array
+            wishlistItems = wishlistItems.filter(id => id !== itemId);
+            
+            // Remove from display
+            const itemElement = document.querySelector(`.toy-card[data-id="${itemId}"]`);
+            if (itemElement) {
+                itemElement.style.opacity = '0';
+                itemElement.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    itemElement.remove();
+                    updateWishlistDisplay();
+                }, 300);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('animeWishlist', JSON.stringify(wishlistItems));
+            
+            // Show notification
+            showToast('Item removed from wishlist', 'error');
+        }
+
+        function addToCart(itemId) {
+            // In a real application, this would add the item to the cart via API
+            // For demo purposes, we'll just show a success message
+            showToast('Item added to cart!', 'success');
+            
+            // Optional: Remove from wishlist after adding to cart
+            // removeFromWishlist(itemId);
+        }
+
+        function updateWishlistDisplay() {
+            const wishlistContainer = document.getElementById('wishlist-items');
+            const emptyState = document.getElementById('empty-wishlist');
+            
+            if (wishlistItems.length === 0) {
+                wishlistContainer.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                wishlistContainer.style.display = 'grid';
+                emptyState.style.display = 'none';
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Clear wishlist function (for testing)
+        function clearWishlist() {
+            if (confirm('Are you sure you want to clear your entire wishlist?')) {
+                wishlistItems = [];
+                localStorage.setItem('animeWishlist', JSON.stringify(wishlistItems));
+                document.getElementById('wishlist-items').innerHTML = '';
+                updateWishlistDisplay();
+                showToast('Wishlist cleared', 'error');
+            }
+        }
+
+        // Add sample items function (for testing)
+        function addSampleItems() {
+            const sampleItems = [
+                {
+                    id: 'naruto',
+                    name: 'Naruto Uzumaki',
+                    price: '$49.99',
+                    image: 'https://avidcollectibles.com/wp-content/uploads/2023/01/naruto-uzumaki-nendoroid.png',
+                    badge: 'BESTSELLER'
+                },
+                {
+                    id: 'luffy',
+                    name: 'Monkey D. Luffy',
+                    price: '$54.99',
+                    image: 'https://m.media-amazon.com/images/I/71CWSymDYJL._AC_SX679_.jpg',
+                    badge: 'NEW'
+                },
+                {
+                    id: 'goku',
+                    name: 'Son Goku',
+                    price: '$59.99',
+                    image: 'https://figurestart.com/cdn/shop/products/Dragon-Ball-Z-Goku-Figure-rise-Standard-Model-Kit.jpg?v=1678774252',
+                    badge: 'LIMITED'
+                }
+            ];
+
+            sampleItems.forEach(item => {
+                if (!wishlistItems.includes(item.id)) {
+                    wishlistItems.push(item.id);
+                }
+            });
+
+            localStorage.setItem('animeWishlist', JSON.stringify(wishlistItems));
+            location.reload(); // Refresh to show updated wishlist
+        }
+    </script>
+</body>
+</html>

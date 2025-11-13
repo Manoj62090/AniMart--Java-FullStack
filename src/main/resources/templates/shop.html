@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | AniMart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== Global Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #ff4d8d;
+            --secondary: #6a5af9;
+            --accent: #ffd166;
+            --dark: #0f1425;
+            --darker: #0a0e1a;
+            --light: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark), #1a1a2e);
+            color: var(--light);
+            min-height: 100vh;
+        }
+        
+        /* ===== Navbar Styles ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(15, 20, 37, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-icon {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+        
+        .logo h1 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, var(--accent), #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-link {
+            color: var(--light);
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link.active {
+            background: rgba(106, 90, 249, 0.2);
+            color: var(--accent);
+        }
+        
+        /* ===== Main Container ===== */
+        .main-container {
+            padding: 8rem 5% 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* ===== Search and Filters ===== */
+        .shop-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .shop-header h1 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .shop-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+        
+        .search-filters {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 0.5rem;
+            flex: 1;
+            max-width: 500px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.2);
+        }
+        
+        .search-btn {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 77, 141, 0.4);
+        }
+        
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border: 1px solid var(--accent);
+        }
+        
+        /* ===== Toy Grid ===== */
+        .toy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin: 0 auto;
+        }
+        
+        .toy-card {
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .toy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+        
+        .toy-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .toy-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .toy-img {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .toy-card:hover .toy-img {
+            transform: scale(1.05);
+        }
+        
+        .toy-card h3 {
+            margin-bottom: 0.8rem;
+            color: var(--accent);
+            font-size: 1.4rem;
+        }
+        
+        .toy-card p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .toy-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .toy-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 0.7rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .action-btn.cart {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .action-btn.wishlist {
+            background: var(--glass);
+            color: var(--light);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .action-btn.cart:hover {
+            box-shadow: 0 5px 15px rgba(255, 77, 141, 0.4);
+        }
+        
+        .action-btn.wishlist:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .action-btn.wishlist.active {
+            background: rgba(255, 77, 141, 0.2);
+            color: #ff4d8d;
+            border-color: rgba(255, 77, 141, 0.3);
+        }
+        
+        /* ===== Loading State ===== */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--accent);
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* ===== Toast Notification ===== */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success {
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .toast.error {
+            border-left: 4px solid #ff4d8d;
+        }
+        
+        .toast i {
+            font-size: 1.2rem;
+        }
+        
+        /* ===== Footer Styles ===== */
+        .footer {
+            background: rgba(10, 14, 26, 0.9);
+            padding: 3rem 5% 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .social-link:hover {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        /* ===== Mobile Responsiveness ===== */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                gap: 0.8rem;
+            }
+            
+            .nav-link span {
+                display: none;
+            }
+            
+            .main-container {
+                padding: 6rem 1rem 2rem;
+            }
+            
+            .search-filters {
+                flex-direction: column;
+            }
+            
+            .search-form {
+                width: 100%;
+            }
+            
+            .toy-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .toy-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== Navbar ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-dragon logo-icon"></i>
+            <h1>AniMart</h1>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link active">
+                <i class="fas fa-home"></i>
+                <span>Shop</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Cart</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-heart"></i>
+                <span>Wishlist</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- ===== Main Container ===== -->
+    <div class="main-container">
+        <div class="shop-header">
+            <h1>Premium Anime Collectibles</h1>
+            <p>Discover exclusive figures and merchandise from your favorite anime worlds</p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-filters">
+            <form class="search-form" id="searchForm">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search for collectibles...">
+                <button type="submit" class="search-btn">
+                    <i class="fas fa-search"></i>
+                    Search
+                </button>
+            </form>
+            
+            <div class="filters">
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="Naruto">Naruto</option>
+                    <option value="One Piece">One Piece</option>
+                    <option value="Dragon Ball">Dragon Ball</option>
+                    <option value="Vocaloid">Vocaloid</option>
+                </select>
+                
+                <select class="filter-select" id="sortFilter">
+                    <option value="name">Sort by Name</option>
+                    <option value="price_low">Price: Low to High</option>
+                    <option value="price_high">Price: High to Low</option>
+                    <option value="newest">Newest First</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Toy Grid -->
+        <div class="toy-grid" id="toyGrid">
+            <!-- Toys will be loaded here dynamically -->
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loadingState" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Loading collectibles...</p>
+        </div>
+    </div>
+
+    <!-- ===== Toast Notification ===== -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Item added to cart!</span>
+    </div>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>AniMart</h3>
+                <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">Your premium destination for authentic anime collectibles and merchandise.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Shop</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> All Products</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> New Arrivals</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Best Sellers</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Shipping Info</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Returns</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AniMart | Premium Anime Collectibles. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample toy data (replace with actual API calls)
+        const sampleToys = [
+            {
+                id: 1,
+                name: "Naruto Uzumaki",
+                description: "Dynamic pose collectible figure from the Naruto series with special effects.",
+                price: 49.99,
+                imageUrl: "https://avidcollectibles.com/wp-content/uploads/2023/01/naruto-uzumaki-nendoroid.png",
+                category: "Naruto",
+                badge: "BESTSELLER",
+                inWishlist: false
+            },
+            {
+                id: 2,
+                name: "Monkey D. Luffy",
+                description: "High-detail action figure of Luffy from One Piece with interchangeable parts.",
+                price: 54.99,
+                imageUrl: "https://m.media-amazon.com/images/I/71CWSymDYJL._AC_SX679_.jpg",
+                category: "One Piece",
+                badge: "NEW",
+                inWishlist: false
+            },
+            {
+                id: 3,
+                name: "Son Goku",
+                description: "Super Saiyan edition from Dragon Ball Z with energy effect accessories.",
+                price: 59.99,
+                imageUrl: "https://figurestart.com/cdn/shop/products/Dragon-Ball-Z-Goku-Figure-rise-Standard-Model-Kit.jpg?v=1678774252",
+                category: "Dragon Ball",
+                badge: "LIMITED",
+                inWishlist: false
+            },
+            {
+                id: 4,
+                name: "Hatsune Miku",
+                description: "Special edition Nendoroid with glowing base stand and multiple expressions.",
+                price: 44.99,
+                imageUrl: "https://i.imgur.com/yXwH2M4.png",
+                category: "Vocaloid",
+                badge: "EXCLUSIVE",
+                inWishlist: false
+            }
+        ];
+
+        // State management
+        let currentToys = [...sampleToys];
+        let filteredToys = [...sampleToys];
+        let wishlist = JSON.parse(localStorage.getItem('animeWishlist')) || [];
+
+        // DOM Elements
+        const toyGrid = document.getElementById('toyGrid');
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const sortFilter = document.getElementById('sortFilter');
+        const loadingState = document.getElementById('loadingState');
+
+        // Initialize the shop
+        document.addEventListener('DOMContentLoaded', function() {
+            loadToys();
+            setupEventListeners();
+        });
+
+        // Load toys from backend (simulated with sample data)
+        async function loadToys() {
+            showLoading(true);
+            
+            try {
+                // Simulate API call delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // In a real application, you would use:
+                // const response = await fetch('/api/toys');
+                // const toys = await response.json();
+                
+                currentToys = sampleToys.map(toy => ({
+                    ...toy,
+                    inWishlist: wishlist.includes(toy.id)
+                }));
+                
+                applyFilters();
+                renderToys();
+            } catch (error) {
+                console.error('Error loading toys:', error);
+                showToast('Error loading products', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Render toys to the grid
+        function renderToys() {
+            toyGrid.innerHTML = '';
+            
+            if (filteredToys.length === 0) {
+                toyGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: rgba(255,255,255,0.7);">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h3>No products found</h3>
+                        <p>Try adjusting your search or filters</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredToys.forEach(toy => {
+                const toyCard = document.createElement('div');
+                toyCard.className = 'toy-card';
+                toyCard.setAttribute('data-toy-id', toy.id);
+                
+                toyCard.innerHTML = `
+                    ${toy.badge ? `<div class="toy-badge">${toy.badge}</div>` : ''}
+                    <img src="${toy.imageUrl}" alt="${toy.name}" class="toy-img">
+                    <h3>${toy.name}</h3>
+                    <p>${toy.description}</p>
+                    <div class="toy-price">$${toy.price}</div>
+                    <div class="toy-actions">
+                        <button class="action-btn cart" onclick="addToCart(${toy.id})">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                        <button class="action-btn wishlist ${toy.inWishlist ? 'active' : ''}" 
+                                onclick="toggleWishlist(${toy.id})">
+                            <i class="fas fa-heart"></i>
+                            ${toy.inWishlist ? 'In Wishlist' : 'Wishlist'}
+                        </button>
+                    </div>
+                `;
+                
+                toyGrid.appendChild(toyCard);
+            });
+        }
+
+        // Apply filters and sorting
+        function applyFilters() {
+            let filtered = [...currentToys];
+            
+            // Category filter
+            const category = categoryFilter.value;
+            if (category) {
+                filtered = filtered.filter(toy => toy.category === category);
+            }
+            
+            // Search filter
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm) {
+                filtered = filtered.filter(toy => 
+                    toy.name.toLowerCase().includes(searchTerm) ||
+                    toy.description.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Sorting
+            const sortBy = sortFilter.value;
+            switch (sortBy) {
+                case 'price_low':
+                    filtered.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price_high':
+                    filtered.sort((a, b) => b.price - a.price);
+                    break;
+                case 'newest':
+                    // Assuming newer items have higher IDs
+                    filtered.sort((a, b) => b.id - a.id);
+                    break;
+                default:
+                    filtered.sort((a, b) => a.name.localeCompare(b.name));
+            }
+            
+            filteredToys = filtered;
+        }
+
+        // Add to cart functionality
+        async function addToCart(toyId) {
+            try {
+                // In a real application, you would use:
+                // const response = await fetch('/api/cart/add', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({ toyId: toyId, quantity: 1 })
+                // });
+                
+                // For demo purposes, simulate API call
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                const toy = currentToys.find(t => t.id === toyId);
+                showToast(`${toy.name} added to cart!`, 'success');
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                showToast('Error adding item to cart', 'error');
+            }
+        }
+
+        // Toggle wishlist functionality
+        async function toggleWishlist(toyId) {
+            try {
+                const toy = currentToys.find(t => t.id === toyId);
+                const isInWishlist = wishlist.includes(toyId);
+                
+                if (isInWishlist) {
+                    // Remove from wishlist
+                    // await fetch(`/api/wishlist/remove/${toyId}`, { method: 'DELETE' });
+                    wishlist = wishlist.filter(id => id !== toyId);
+                    toy.inWishlist = false;
+                    showToast(`${toy.name} removed from wishlist`, 'error');
+                } else {
+                    // Add to wishlist
+                    // await fetch('/api/wishlist/add', {
+                    //     method: 'POST',
+                    //     headers: { 'Content-Type': 'application/json' },
+                    //     body: JSON.stringify({ toyId: toyId })
+                    // });
+                    wishlist.push(toyId);
+                    toy.inWishlist = true;
+                    showToast(`${toy.name} added to wishlist!`, 'success');
+                }
+                
+                // Update localStorage
+                localStorage.setItem('animeWishlist', JSON.stringify(wishlist));
+                
+                // Update UI
+                const wishlistBtn = document.querySelector(`.toy-card[data-toy-id="${toyId}"] .wishlist`);
+                if (wishlistBtn) {
+                    wishlistBtn.classList.toggle('active');
+                    wishlistBtn.innerHTML = `
+                        <i class="fas fa-heart"></i>
+                        ${toy.inWishlist ? 'In Wishlist' : 'Wishlist'}
+                    `;
+                }
+            } catch (error) {
+                console.error('Error updating wishlist:', error);
+                showToast('Error updating wishlist', 'error');
+            }
+        }
+
+        // Event listeners
+        function setupEventListeners() {
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                applyFilters();
+                renderToys();
+            });
+            
+            categoryFilter.addEventListener('change', function() {
+                applyFilters();
+                renderToys();
+            });
+            
+            sortFilter.addEventListener('change', function() {
+                applyFilters();
+                renderToys();
+            });
+            
+            searchInput.addEventListener('input', function() {
+                applyFilters();
+                renderToys();
+            });
+        }
+
+        // Utility functions
+        function showLoading(show) {
+            loadingState.style.display = show ? 'block' : 'none';
+            toyGrid.style.display = show ? 'none' : 'grid';
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Backend Integration Helpers
+        // Uncomment and modify these functions for real backend integration:
+
+        /*
+        // Load toys from backend
+        async function loadToysFromBackend() {
+            try {
+                const response = await fetch('/api/toys');
+                if (!response.ok) throw new Error('Failed to load toys');
+                return await response.json();
+            } catch (error) {
+                console.error('Error loading toys:', error);
+                throw error;
+            }
+        }
+
+        // Add to cart via backend
+        async function addToCartBackend(toyId, quantity = 1) {
+            try {
+                const response = await fetch('/api/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Add authentication header if needed
+                        // 'Authorization': `Bearer ${getToken()}`
+                    },
+                    body: JSON.stringify({
+                        toyId: toyId,
+                        quantity: quantity
+                    })
+                });
+                
+                if (!response.ok) throw new Error('Failed to add to cart');
+                return await response.json();
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                throw error;
+            }
+        }
+
+        // Toggle wishlist via backend
+        async function toggleWishlistBackend(toyId, action) {
+            try {
+                const url = action === 'add' ? '/api/wishlist/add' : `/api/wishlist/remove/${toyId}`;
+                const method = action === 'add' ? 'POST' : 'DELETE';
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'Authorization': `Bearer ${getToken()}`
+                    },
+                    ...(action === 'add' && { body: JSON.stringify({ toyId: toyId }) })
+                });
+                
+                if (!response.ok) throw new Error(`Failed to ${action} wishlist`);
+                return await response.json();
+            } catch (error) {
+                console.error('Error updating wishlist:', error);
+                throw error;
+            }
+        }
+        */
+    </script>
+</body>
+</html>

@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | AniMart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== Global Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #ff4d8d;
+            --secondary: #6a5af9;
+            --accent: #ffd166;
+            --dark: #0f1425;
+            --darker: #0a0e1a;
+            --light: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark), #1a1a2e);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* ===== Enhanced Navbar Styles ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(15, 20, 37, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-icon {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+        
+        .logo h1 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, var(--accent), #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .navbar nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-link {
+            color: var(--light);
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* ===== Enhanced Main Container ===== */
+        .main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 77, 141, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(106, 90, 249, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        /* ===== Enhanced Glass Card ===== */
+        .glass-card {
+            background: rgba(20, 25, 45, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--glass-border);
+            animation: slideUp 0.6s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .glass-card h2 {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            color: var(--accent);
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        /* ===== Enhanced Form Styles ===== */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            z-index: 2;
+        }
+        
+        input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(5px);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.2);
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .password-toggle:hover {
+            color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .remember-me input {
+            width: auto;
+            padding: 0;
+        }
+        
+        .forgot-password {
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .forgot-password:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 77, 141, 0.4);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .login-btn.loading {
+            position: relative;
+            color: transparent;
+        }
+        
+        .login-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .register-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .register-link a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        /* ===== Toast Notification ===== */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success {
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .toast.error {
+            border-left: 4px solid #ff4d8d;
+        }
+        
+        .toast i {
+            font-size: 1.2rem;
+        }
+        
+        /* ===== Footer Styles ===== */
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(10, 14, 26, 0.9);
+            border-top: 1px solid var(--glass-border);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* ===== Mobile Responsiveness ===== */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .glass-card {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .form-options {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .glass-card {
+                padding: 1.5rem 1rem;
+            }
+            
+            .nav-link span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== Navbar ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-dragon logo-icon"></i>
+            <h1>AniMart</h1>
+        </div>
+        <nav>
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- ===== Main Container ===== -->
+    <div class="main-container">
+        <div class="glass-card">
+            <h2>Welcome Back!</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle" id="passwordToggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        Remember me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In
+                </button>
+            </form>
+            
+            <p class="register-link">
+                Don't have an account? <a href="register.html">Create one here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- ===== Toast Notification ===== -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Login successful!</span>
+    </div>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <p>&copy; 2025 AniMart | Premium Anime Collectibles. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const passwordToggle = document.getElementById('passwordToggle');
+        const rememberMe = document.getElementById('rememberMe');
+        const loginBtn = document.getElementById('loginBtn');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Password toggle functionality
+        passwordToggle.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+
+        // Load saved credentials if "Remember me" was checked
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedEmail = localStorage.getItem('animeEmail');
+            const savedRememberMe = localStorage.getItem('animeRememberMe');
+            
+            if (savedEmail && savedRememberMe === 'true') {
+                emailInput.value = savedEmail;
+                rememberMe.checked = true;
+            }
+        });
+
+        // Form submission with backend integration
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const shouldRemember = rememberMe.checked;
+
+            // Basic validation
+            if (!email || !password) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                showToast('Please enter a valid email address', 'error');
+                return;
+            }
+
+            // Show loading state
+            setLoadingState(true);
+
+            try {
+                // Backend integration - Replace with your actual API endpoint
+                const response = await loginToBackend(email, password);
+                
+                if (response.success) {
+                    // Save credentials if "Remember me" is checked
+                    if (shouldRemember) {
+                        localStorage.setItem('animeEmail', email);
+                        localStorage.setItem('animeRememberMe', 'true');
+                    } else {
+                        localStorage.removeItem('animeEmail');
+                        localStorage.removeItem('animeRememberMe');
+                    }
+                    
+                    // Save user data and token
+                    localStorage.setItem('animeUser', response.user.name || email.split('@')[0]);
+                    localStorage.setItem('authToken', response.token);
+                    
+                    showToast('Login successful! Redirecting...', 'success');
+                    
+                    // Redirect to home page or dashboard
+                    setTimeout(() => {
+                        window.location.href = '/'; // Change to your desired redirect URL
+                    }, 2000);
+                    
+                } else {
+                    showToast(response.message || 'Login failed', 'error');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showToast('Network error. Please try again.', 'error');
+            } finally {
+                setLoadingState(false);
+            }
+        });
+
+        // Backend Integration Functions
+        async function loginToBackend(email, password) {
+            // Replace this with your actual backend API call
+            const API_URL = '/api/auth/login'; // Your Spring Boot endpoint
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Add CSRF token if using Spring Security
+                        // 'X-CSRF-TOKEN': getCsrfToken()
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Login failed');
+                }
+
+                return await response.json();
+                
+            } catch (error) {
+                // For demo purposes, simulate successful login
+                // Remove this in production and use the actual API call above
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Simulate API response
+                return {
+                    success: true,
+                    token: 'demo_jwt_token_here',
+                    user: {
+                        name: email.split('@')[0],
+                        email: email
+                    },
+                    message: 'Login successful'
+                };
+            }
+        }
+
+        // Alternative: Using FormData for traditional form submission
+        async function loginWithFormData(email, password) {
+            const formData = new FormData();
+            formData.append('username', email);
+            formData.append('password', password);
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.redirected) {
+                    // Spring Security redirect on success
+                    window.location.href = response.url;
+                    return { success: true };
+                } else if (!response.ok) {
+                    throw new Error('Login failed');
+                }
+
+                return await response.json();
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        // Utility Functions
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function setLoadingState(loading) {
+            if (loading) {
+                loginBtn.disabled = true;
+                loginBtn.classList.add('loading');
+                loginBtn.innerHTML = '';
+            } else {
+                loginBtn.disabled = false;
+                loginBtn.classList.remove('loading');
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // CSRF Token Helper (if using Spring Security)
+        function getCsrfToken() {
+            return document.querySelector('meta[name="_csrf"]')?.getAttribute('content') || 
+                   document.querySelector('input[name="_csrf"]')?.value;
+        }
+
+        // Demo login for testing (remove in production)
+        function demoLogin() {
+            emailInput.value = 'demo@animart.com';
+            passwordInput.value = 'password123';
+            loginForm.dispatchEvent(new Event('submit'));
+        }
+
+        // Uncomment the line below to enable demo login for testing
+        // demoLogin();
+    </script>
+</body>
+</html>

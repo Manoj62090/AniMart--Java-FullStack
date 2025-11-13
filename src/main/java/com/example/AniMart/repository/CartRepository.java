@@ -1,0 +1,9 @@
+package com.example.AniMart.repository;
+
+import com.example.AniMart.entity.Cart;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+public interface CartRepository extends JpaRepository<Cart, Integer> {
+    List<Cart> findByUserId(Integer userId);
+}

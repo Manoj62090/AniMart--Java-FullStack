@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | AniMart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== Global Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #ff4d8d;
+            --secondary: #6a5af9;
+            --accent: #ffd166;
+            --dark: #0f1425;
+            --darker: #0a0e1a;
+            --light: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark), #1a1a2e);
+            color: var(--light);
+            min-height: 100vh;
+        }
+        
+        /* ===== Navbar Styles ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(15, 20, 37, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-icon {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+        
+        .logo h1 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, var(--accent), #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .continue-shopping {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 0.8rem 1.5rem;
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .continue-shopping:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* ===== Main Container ===== */
+        .main-container {
+            padding: 3rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .cart-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .cart-header h1 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .cart-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+        
+        /* ===== Cart Content ===== */
+        .cart-content {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .cart-items {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .cart-summary {
+            flex: 1;
+            min-width: 300px;
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+        
+        .summary-title {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--accent);
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 77, 141, 0.4);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+            background: var(--glass);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+        
+        .empty-cart i {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .empty-cart h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .empty-cart p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+        }
+        
+        /* ===== Cart Item Styles ===== */
+        .cart-item {
+            display: flex;
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .cart-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cart-item-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-right: 1.5rem;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cart-item-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+        
+        .cart-item-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.3rem;
+        }
+        
+        .quantity-btn {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .quantity {
+            min-width: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .remove-btn {
+            background: rgba(255, 77, 141, 0.2);
+            color: var(--light);
+            border: 1px solid rgba(255, 77, 141, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .remove-btn:hover {
+            background: rgba(255, 77, 141, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* ===== Footer Styles ===== */
+        .footer {
+            background: rgba(10, 14, 26, 0.9);
+            padding: 3rem 5% 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .social-link:hover {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        /* ===== Mobile Responsiveness ===== */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .cart-content {
+                flex-direction: column;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+            }
+            
+            .cart-item-image {
+                width: 100%;
+                height: 200px;
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .cart-item-actions {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== Navbar ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-dragon logo-icon"></i>
+            <h1>AniMart</h1>
+        </div>
+        <a href="#" class="continue-shopping">
+            <i class="fas fa-arrow-left"></i>
+            Continue Shopping
+        </a>
+    </header>
+
+    <!-- ===== Main Container ===== -->
+    <div class="main-container">
+        <div class="cart-header">
+            <h1><i class="fas fa-shopping-cart"></i> Your Cart</h1>
+            <p>Review your selected items before checkout</p>
+        </div>
+
+        <!-- Cart with items -->
+        <div class="cart-content" id="cart-with-items">
+            <div class="cart-items">
+                <!-- Cart Item 1 -->
+                <div class="cart-item">
+                    <img src="https://avidcollectibles.com/wp-content/uploads/2023/01/naruto-uzumaki-nendoroid.png" alt="Naruto Figure" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h3 class="cart-item-name">Naruto Uzumaki</h3>
+                        <p class="cart-item-price">$49.99</p>
+                        <div class="cart-item-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="updateQuantity('naruto', -1)">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="quantity" id="naruto-quantity">1</span>
+                                <button class="quantity-btn" onclick="updateQuantity('naruto', 1)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <button class="remove-btn" onclick="removeItem('naruto')">
+                                <i class="fas fa-trash"></i>
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Item 2 -->
+                <div class="cart-item">
+                    <img src="https://m.media-amazon.com/images/I/71CWSymDYJL._AC_SX679_.jpg" alt="Luffy Figure" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h3 class="cart-item-name">Monkey D. Luffy</h3>
+                        <p class="cart-item-price">$54.99</p>
+                        <div class="cart-item-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="updateQuantity('luffy', -1)">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="quantity" id="luffy-quantity">1</span>
+                                <button class="quantity-btn" onclick="updateQuantity('luffy', 1)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <button class="remove-btn" onclick="removeItem('luffy')">
+                                <i class="fas fa-trash"></i>
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <h3 class="summary-title">Order Summary</h3>
+                <div class="summary-item">
+                    <span>Items (2)</span>
+                    <span>$104.98</span>
+                </div>
+                <div class="summary-item">
+                    <span>Shipping</span>
+                    <span>$5.99</span>
+                </div>
+                <div class="summary-item">
+                    <span>Tax</span>
+                    <span>$8.40</span>
+                </div>
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span>$119.37</span>
+                </div>
+                <button class="checkout-btn">
+                    <i class="fas fa-lock"></i>
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+
+        <!-- Empty Cart State (initially hidden) -->
+        <div class="empty-cart" id="empty-cart" style="display: none;">
+            <i class="fas fa-shopping-cart"></i>
+            <h2>Your Cart is Empty</h2>
+            <p>Looks like you haven't added any items to your cart yet.</p>
+            <a href="#" class="continue-shopping" style="display: inline-flex;">
+                <i class="fas fa-shopping-bag"></i>
+                Start Shopping
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>AniMart</h3>
+                <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">Your premium destination for authentic anime collectibles and merchandise.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Shop</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> All Products</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> New Arrivals</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Best Sellers</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Shipping Info</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Returns</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AniMart | Premium Anime Collectibles. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Cart functionality
+        let cartItems = {
+            'naruto': { quantity: 1, price: 49.99 },
+            'luffy': { quantity: 1, price: 54.99 }
+        };
+
+        function updateQuantity(itemId, change) {
+            const currentQuantity = cartItems[itemId].quantity;
+            const newQuantity = currentQuantity + change;
+            
+            if (newQuantity < 1) {
+                removeItem(itemId);
+                return;
+            }
+            
+            cartItems[itemId].quantity = newQuantity;
+            document.getElementById(`${itemId}-quantity`).textContent = newQuantity;
+            updateCartSummary();
+        }
+
+        function removeItem(itemId) {
+            delete cartItems[itemId];
+            document.querySelector(`.cart-item:has(#${itemId}-quantity)`).style.display = 'none';
+            
+            // Check if cart is empty
+            if (Object.keys(cartItems).length === 0) {
+                document.getElementById('cart-with-items').style.display = 'none';
+                document.getElementById('empty-cart').style.display = 'block';
+            } else {
+                updateCartSummary();
+            }
+        }
+
+        function updateCartSummary() {
+            // This would calculate totals based on cart items in a real application
+            // For demo purposes, we're using static values
+        }
+
+        // Initialize cart
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartSummary();
+        });
+    </script>
+</body>
+</html>

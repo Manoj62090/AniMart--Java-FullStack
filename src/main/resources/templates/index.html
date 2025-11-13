@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniMart | Premium Anime Collectibles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== Global Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #ff4d8d;
+            --secondary: #6a5af9;
+            --accent: #ffd166;
+            --dark: #0f1425;
+            --darker: #0a0e1a;
+            --light: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark), #1a1a2e);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* ===== Enhanced Navbar Styles ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(15, 20, 37, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-icon {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+        
+        .logo h1 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, var(--accent), #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .navbar nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .nav-link {
+            color: var(--light);
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-link i {
+            font-size: 1.1rem;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link.active {
+            background: rgba(106, 90, 249, 0.2);
+            color: var(--accent);
+        }
+        
+        /* ===== Improved Search Bar Styles ===== */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-right: 1rem; /* Added spacing between search and auth buttons */
+        }
+        
+        .search-input {
+            width: 0;
+            padding: 0;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 0.9rem;
+            transition: all 0.4s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .search-input.active {
+            width: 250px;
+            padding: 0.7rem 1rem 0.7rem 3rem;
+            opacity: 1;
+            visibility: visible;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.3);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+        
+        .search-icon:hover {
+            color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-btn {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            cursor: pointer;
+            padding: 0.6rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .search-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-left: 1rem; /* Added spacing between search and auth buttons */
+        }
+        
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            font-size: 0.9rem;
+        }
+        
+        .btn-login {
+            background: transparent;
+            color: var(--light);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .btn-login:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .btn-register {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 77, 141, 0.3);
+        }
+        
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 77, 141, 0.4);
+        }
+        
+        .user-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--glass);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            margin-left: 1rem; /* Added spacing between search and user status */
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .user-name {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .logout-btn {
+            background: rgba(255, 77, 141, 0.2);
+            color: var(--light);
+            border: 1px solid rgba(255, 77, 141, 0.3);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 77, 141, 0.3);
+        }
+        
+        /* ===== Enhanced Hero Section ===== */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 77, 141, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(106, 90, 249, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 209, 102, 0.1) 0%, transparent 50%),
+                url('https://images4.alphacoders.com/132/thumb-1920-1321184.png') center/cover no-repeat;
+            backdrop-filter: blur(5px);
+            color: var(--light);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 20, 37, 0.7), rgba(10, 14, 26, 0.8));
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            line-height: 1.6;
+            margin: 0 auto 2.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .cta-btn {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            color: var(--light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-btn.primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 20px rgba(255, 77, 141, 0.3);
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .cta-btn.primary:hover {
+            box-shadow: 0 8px 25px rgba(255, 77, 141, 0.4);
+        }
+        
+        /* ===== Enhanced Toy Grid Section ===== */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--light);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .toy-section {
+            padding: 5rem 5%;
+            background: rgba(10, 14, 26, 0.7);
+        }
+        
+        .toy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .toy-card {
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .toy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+        
+        .toy-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .toy-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .toy-img {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .toy-card:hover .toy-img {
+            transform: scale(1.05);
+        }
+        
+        .toy-card h3 {
+            margin-bottom: 0.8rem;
+            color: var(--accent);
+            font-size: 1.4rem;
+        }
+        
+        .toy-card p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .toy-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .toy-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 0.7rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .action-btn.cart {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .action-btn.wishlist {
+            background: var(--glass);
+            color: var(--light);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* ===== Enhanced Footer ===== */
+        .footer {
+            background: rgba(10, 14, 26, 0.9);
+            padding: 3rem 5% 1.5rem;
+            border-top: 1px solid var(--glass-border);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .social-link:hover {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        /* ===== Enhanced Auth Modal Styles ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: rgba(20, 25, 45, 0.95);
+            border-radius: 20px;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--accent);
+            transition: all 0.3s ease;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+        
+        .modal h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+        
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .auth-form input {
+            padding: 1rem 1.2rem;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(5px);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .auth-form input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .auth-form input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 209, 102, 0.2);
+        }
+        
+        .auth-form button {
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .auth-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 77, 141, 0.4);
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .auth-switch a {
+            color: var(--accent);
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .auth-switch a:hover {
+            color: white;
+        }
+        
+        /* ===== Search Results Styles ===== */
+        .search-results {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(20, 25, 45, 0.95);
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--glass-border);
+            border-top: none;
+        }
+        
+        .search-results.active {
+            display: block;
+        }
+        
+        .search-result-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .search-result-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .search-result-info h4 {
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+        
+        .search-result-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        .no-results {
+            padding: 1.5rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* ===== Mobile Responsiveness ===== */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .navbar nav {
+                gap: 0.8rem;
+            }
+            
+            .nav-link span {
+                display: none;
+            }
+            
+            .nav-link i {
+                font-size: 1.3rem;
+            }
+            
+            .search-input.active {
+                width: 180px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .toy-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .search-input.active {
+                width: 150px;
+            }
+            
+            .auth-buttons {
+                gap: 0.5rem;
+            }
+            
+            .btn {
+                padding: 0.6rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== Enhanced Navbar ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-dragon logo-icon"></i>
+            <h1>AniMart</h1>
+        </div>
+        <nav>
+            <a href="#" class="nav-link active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="cart.html" class="nav-link">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Cart</span>
+            </a>
+            <a href="collection.html" class="nav-link">
+                <i class="fas fa-star"></i>
+                <span>Collections</span>
+            </a>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search for collectibles...">
+                <div class="search-results" id="search-results">
+                    <!-- Search results will be populated here -->
+                </div>
+            </div>
+            
+            <div id="auth-links" class="auth-buttons">
+                <button class="btn btn-login" id="login-link">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                </button>
+                <button class="btn btn-register" id="register-link">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Register</span>
+                </button>
+            </div>
+            
+            <div id="user-status" class="user-status" style="display: none;">
+                <div class="user-avatar" id="user-avatar">A</div>
+                <span class="user-name" id="username-display">AnimeFan</span>
+                <button class="logout-btn" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===== Enhanced Hero Section ===== -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Discover Premium Anime Collectables</h1>
+            <p>Your ultimate destination for exclusive figures, plushies, and merchandise from your favorite anime worlds!</p>
+            <div class="cta-buttons">
+                <a href="toys.html" class="cta-btn primary">
+                    <i class="fas fa-shopping-cart"></i>
+                    Shop Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Enhanced Toy Section ===== -->
+    <section class="toy-section">
+        <h2 class="section-title">Featured Collectibles</h2>
+        <div class="toy-grid">
+            <div class="toy-card">
+                <div class="toy-badge">BESTSELLER</div>
+                <img src="https://avidcollectibles.com/wp-content/uploads/2023/01/naruto-uzumaki-nendoroid.png" alt="Naruto Figure" class="toy-img">
+                <h3>Naruto Uzumaki</h3>
+                <p>Dynamic pose collectible figure from the Naruto series with special effects.</p>
+                <div class="toy-price">$49.99</div>
+                <div class="toy-actions">
+                    <button class="action-btn cart">
+                        <i class="fas fa-cart-plus"></i>
+                        Add to Cart
+                    </button>
+                    <button class="action-btn wishlist">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="toy-card">
+                <div class="toy-badge">NEW</div>
+                <img src="https://m.media-amazon.com/images/I/71CWSymDYJL._AC_SX679_.jpg" alt="Luffy Figure" class="toy-img">
+                <h3>Monkey D. Luffy</h3>
+                <p>High-detail action figure of Luffy from One Piece with interchangeable parts.</p>
+                <div class="toy-price">$54.99</div>
+                <div class="toy-actions">
+                    <button class="action-btn cart">
+                        <i class="fas fa-cart-plus"></i>
+                        Add to Cart
+                    </button>
+                    <button class="action-btn wishlist">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="toy-card">
+                <div class="toy-badge">LIMITED</div>
+                <img src="https://figurestart.com/cdn/shop/products/Dragon-Ball-Z-Goku-Figure-rise-Standard-Model-Kit.jpg?v=1678774252" alt="Goku Figure" class="toy-img">
+                <h3>Son Goku</h3>
+                <p>Super Saiyan edition from Dragon Ball Z with energy effect accessories.</p>
+                <div class="toy-price">$59.99</div>
+                <div class="toy-actions">
+                    <button class="action-btn cart">
+                        <i class="fas fa-cart-plus"></i>
+                        Add to Cart
+                    </button>
+                    <button class="action-btn wishlist">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+    </section>
+
+    <!-- ===== Enhanced Footer ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>AniMart</h3>
+                <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">Your premium destination for authentic anime collectibles and merchandise.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Shop</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> All Products</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> New Arrivals</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Best Sellers</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Shipping Info</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Returns</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AniMart | Premium Anime Collectibles. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ===== Login Modal ===== -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-login">&times;</span>
+            <h2>Welcome Back!</h2>
+            <form class="auth-form" id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </button>
+            </form>
+            <p class="auth-switch">Don't have an account? <a id="switch-to-register">Register now</a></p>
+        </div>
+    </div>
+
+    <!-- ===== Register Modal ===== -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-register">&times;</span>
+            <h2>Join AniMart!</h2>
+            <form class="auth-form" id="register-form">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm">Confirm Password</label>
+                    <input type="password" id="register-confirm" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit">
+                    <i class="fas fa-user-plus"></i>
+                    Create Account
+                </button>
+            </form>
+            <p class="auth-switch">Already have an account? <a id="switch-to-login">Login here</a></p>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginLink = document.getElementById('login-link');
+        const registerLink = document.getElementById('register-link');
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const closeLogin = document.getElementById('close-login');
+        const closeRegister = document.getElementById('close-register');
+        const switchToRegister = document.getElementById('switch-to-register');
+        const switchToLogin = document.getElementById('switch-to-login');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const authLinks = document.getElementById('auth-links');
+        const userStatus = document.getElementById('user-status');
+        const usernameDisplay = document.getElementById('username-display');
+        const userAvatar = document.getElementById('user-avatar');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        // Search Elements
+        const searchIcon = document.querySelector('.search-icon');
+        const searchInput = document.querySelector('.search-input');
+        const searchResults = document.getElementById('search-results');
+
+        // Sample product data for search
+        const products = [
+            {
+                id: 1,
+                name: "Naruto Uzumaki",
+                description: "Dynamic pose collectible figure",
+                price: "$49.99",
+                image: "https://avidcollectibles.com/wp-content/uploads/2023/01/naruto-uzumaki-nendoroid.png",
+                category: "Naruto"
+            },
+            {
+                id: 2,
+                name: "Monkey D. Luffy",
+                description: "High-detail action figure",
+                price: "$54.99",
+                image: "https://m.media-amazon.com/images/I/71CWSymDYJL._AC_SX679_.jpg",
+                category: "One Piece"
+            },
+            {
+                id: 3,
+                name: "Son Goku",
+                description: "Super Saiyan edition",
+                price: "$59.99",
+                image: "https://figurestart.com/cdn/shop/products/Dragon-Ball-Z-Goku-Figure-rise-Standard-Model-Kit.jpg?v=1678774252",
+                category: "Dragon Ball Z"
+            },
+            {
+                id: 4,
+                name: "Hatsune Miku",
+                description: "Special edition Nendoroid",
+                price: "$44.99",
+                image: "https://i.imgur.com/yXwH2M4.png",
+                category: "Vocaloid"
+            }
+        ];
+
+        // Toggle search input
+        searchIcon.addEventListener('click', () => {
+            searchInput.classList.toggle('active');
+            if (searchInput.classList.contains('active')) {
+                searchInput.focus();
+            } else {
+                searchInput.value = '';
+                searchResults.classList.remove('active');
+            }
+        });
+
+        // Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (query.length === 0) {
+                searchResults.classList.remove('active');
+                return;
+            }
+            
+            // Filter products based on search query
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(query) || 
+                product.description.toLowerCase().includes(query) ||
+                product.category.toLowerCase().includes(query)
+            );
+            
+            // Display search results
+            displaySearchResults(filteredProducts, query);
+        });
+
+        // Display search results
+        function displaySearchResults(results, query) {
+            searchResults.innerHTML = '';
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = `
+                    <div class="no-results">
+                        <p>No products found for "${query}"</p>
+                    </div>
+                `;
+            } else {
+                results.forEach(product => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'search-result-item';
+                    resultItem.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}" class="search-result-img">
+                        <div class="search-result-info">
+                            <h4>${product.name}</h4>
+                            <p>${product.description} • ${product.price}</p>
+                        </div>
+                    `;
+                    resultItem.addEventListener('click', () => {
+                        alert(`You selected: ${product.name}`);
+                        searchInput.value = '';
+                        searchResults.classList.remove('active');
+                        searchInput.classList.remove('active');
+                    });
+                    searchResults.appendChild(resultItem);
+                });
+            }
+            
+            searchResults.classList.add('active');
+        }
+
+        // Close search results when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container')) {
+                searchResults.classList.remove('active');
+            }
+        });
+
+        // Show Login Modal
+        loginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'flex';
+        });
+
+        // Show Register Modal
+        registerLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerModal.style.display = 'flex';
+        });
+
+        // Close Modals
+        closeLogin.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+
+        closeRegister.addEventListener('click', () => {
+            registerModal.style.display = 'none';
+        });
+
+        // Switch between Login and Register
+        switchToRegister.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+            registerModal.style.display = 'flex';
+        });
+
+        switchToLogin.addEventListener('click', () => {
+            registerModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+            if (e.target === registerModal) {
+                registerModal.style.display = 'none';
+            }
+        });
+
+        // Login Form Submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Simple validation
+            if (email && password) {
+                // In a real app, this would be an API call
+                // For demo purposes, we'll simulate a successful login
+                const username = email.split('@')[0];
+                handleSuccessfulLogin(username);
+                loginModal.style.display = 'none';
+                loginForm.reset();
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+
+        // Register Form Submission
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm').value;
+            
+            // Simple validation
+            if (name && email && password && confirmPassword) {
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match.');
+                    return;
+                }
+                
+                // In a real app, this would be an API call
+                // For demo purposes, we'll simulate a successful registration and login
+                handleSuccessfulLogin(name);
+                registerModal.style.display = 'none';
+                registerForm.reset();
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+
+        // Logout Functionality
+        logoutBtn.addEventListener('click', () => {
+            authLinks.style.display = 'flex';
+            userStatus.style.display = 'none';
+            localStorage.removeItem('animeUser');
+        });
+
+        // Handle Successful Login
+        function handleSuccessfulLogin(username) {
+            usernameDisplay.textContent = username;
+            userAvatar.textContent = username.charAt(0).toUpperCase();
+            authLinks.style.display = 'none';
+            userStatus.style.display = 'flex';
+            localStorage.setItem('animeUser', username);
+        }
+
+        // Check if user is already logged in (for demo purposes)
+        window.addEventListener('DOMContentLoaded', () => {
+            // For demo, we'll check if there's a username in localStorage
+            const savedUsername = localStorage.getItem('animeUser');
+            if (savedUsername) {
+                handleSuccessfulLogin(savedUsername);
+            }
+        });
+
+        // Add to cart functionality
+        document.querySelectorAll('.action-btn.cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const toyName = this.closest('.toy-card').querySelector('h3').textContent;
+                alert(`Added ${toyName} to your cart!`);
+            });
+        });
+
+        // Wishlist functionality
+        document.querySelectorAll('.action-btn.wishlist').forEach(button => {
+            button.addEventListener('click', function() {
+                const toyName = this.closest('.toy-card').querySelector('h3').textContent;
+                this.classList.toggle('active');
+                if (this.classList.contains('active')) {
+                    this.innerHTML = '<i class="fas fa-heart" style="color: #ff4d8d;"></i>';
+                    alert(`Added ${toyName} to your wishlist!`);
+                } else {
+                    this.innerHTML = '<i class="fas fa-heart"></i>';
+                    alert(`Removed ${toyName} from your wishlist!`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
